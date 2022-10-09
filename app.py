@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 import pydeck as pdk
+from .preprocesamiento import input_toCreditScore
 import joblib
 
 st.set_page_config(page_title="miDataCreditoGratis.com", page_icon="./Graficas/stockfish.png", layout="centered", initial_sidebar_state="auto")
@@ -37,7 +38,7 @@ with st.sidebar:
     grade = st.selectbox(label="Nota asignada por el Letter of Credit (LC): ",
              options=("A","B","C","D","E","F","G", "No lo sé"))
     if grade == "No lo sé":
-        grade = "G"
+        grade = "B"
 
     #home_ownership
     home_ownership = st.selectbox(label="Sobre su vivienda, usted tiene: ",
@@ -56,8 +57,10 @@ with st.sidebar:
         verification_status = "Source Verified"
     elif verification_status == "Verificado":
         verification_status = "Verified"
+    elif verification_status == "No Verificado":
+        verification_status = "Not Verified"
     else:
-        verification_status = "Not Verified"  
+        verification_status = "Verified"  
 
     #purpose
     purpose = st.selectbox(label="¿Con qué propósito pediría un préstamo?: ",
@@ -85,12 +88,12 @@ with st.sidebar:
     elif purpose == "Tarjeta de crédito":
         purpose = "credit_card"
     else:
-        purpose = "major_purch__car__home_impr"
+        purpose = "debt_consolidation"
 
     #int_rate
     int_rate = st.number_input(label="Tasa de interés de su préstamo (%), si no sabe dejar vacío: ", value = 0)
     if int_rate == 0:
-        int_rate = ">20.281"
+        int_rate = "13.829236"
     elif int_rate < 7.071:
         int_rate = "<7.071"
     elif int_rate < 10.374:
@@ -124,4 +127,6 @@ with st.sidebar:
         annual_inc = "120,379-150,000"
     else:
         annual_inc = ">150K"
+
+    dti = 14.4
 #############################
