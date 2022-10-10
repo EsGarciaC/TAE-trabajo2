@@ -1,6 +1,13 @@
 import pandas as pd
 import numpy as np
 
+def load_scores():
+    scores_test = pd.read_pickle("DataFramesYutiles/punjatesTest.pkl")
+    score_train = pd.read_pickle("DataFramesYutiles/punjatesTrain.pkl")
+
+    puntajes = score_train.append(scores_test)
+
+    return puntajes
 
 def load_scorecard():
     scorecard = pd.read_pickle("DataFramesYutiles/scorecard.pkl")
@@ -52,7 +59,7 @@ score = input_toCreditScore("B", "OWN", "Verified", "debt_consolidation", "36", 
                            "1,089-2,541", "missing", "<125", "79-89", "61-75")
 
 
-print(score)
+print(load_scores().shape)
 
 
 
