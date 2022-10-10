@@ -209,4 +209,24 @@ score = input_toCreditScore(grade, home_ownership, verification_status, purpose,
                             total_rec_int, total_rev_hi_lim, mths_since_earliest_cr_line, mths_since_issue_d,
                             mths_since_last_credit_pull_d)
 
-st.write(score)
+if score >= 600:
+    st.write(f"""¡Felicitaciones! Su puntaje es de {score}, que está muy por encima del puntaje 
+            promedio de los consumidores y demuestra claramente a los prestamistas que es un
+            prestatario excepcional.\nAdaptado de: experian.com""")
+elif score >= 585:
+    st.write(f"""¡Bien! Su puntaje es de {score}, que está por encima del puntaje 
+            promedio de los consumidores y demuestra a los prestamistas que es un
+            prestatario muy confiable.\nAdaptado de: experian.com""")
+elif score >= 518:
+    st.write(f"""Su puntaje es de {score}, que está cerca o ligeramente por encima del puntaje 
+            promedio de los consumidores y la mayoría de los prestamistas lo consideran como un 
+            buen puntaje.\nAdaptado de: experian.com""")
+elif score >= 450:
+    st.write(f"""Su puntaje es de {score}, que está por debajo del puntaje 
+            promedio de los consumidores. Aún así, existen prestamistas que aprobarán
+            prestamos con este puntaje.\nAdaptado de: experian.com""")
+else:
+    st.write(f"""Su puntaje es de {score}, que está muy por debajo del puntaje 
+            promedio de los consumidores y demuestra a los prestamistas que es un
+            prestatario riesgoso.\nAdaptado de: experian.com""")
+        
