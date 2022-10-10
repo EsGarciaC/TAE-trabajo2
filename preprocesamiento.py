@@ -1,23 +1,23 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 def load_scores():
     scores_test = pd.read_pickle("DataFramesYutiles/puntajesTest.pkl")
     score_train = pd.read_pickle("DataFramesYutiles/puntajesTrain.pkl")
 
-    puntajes = score_train.append(scores_test)
+    scores = score_train.append(scores_test)
+    scores.columns = ["scores"]
 
-    return puntajes
+    return scores
 
 def calcular_percentil(puntaje):
 
     scores = load_scores()
 
-    scores.columns = ["puntajes"]
+    cantidad_puntajes_debajo = len(scores[scores["scores"] <= puntaje])
 
-    cantidad_puntajes_debajo = len(scores[scores["puntajes"] <= puntaje])
-
-    percentil = cantidad_puntajes_debajo/len(scores["puntajes"]) * 100
+    percentil = cantidad_puntajes_debajo/len(scores["scores"]) * 100
 
     return int(percentil)
 
@@ -62,6 +62,22 @@ def input_toCreditScore(grade, home_ownership, verification_status, purpose, ter
 
     return round(credit_score[0][0])
 
+def create_score_pie_chart():
+
+    scores = load_scores()
+    scores.sort_index(inplace=True)
+
+    y = np.array([len(scores[scores['scores'] < 500]), 
+                  len(scores[(scores["scores"] >= 450) & scores["scores"] < 517]), 
+                  len(scores[(scores["scores"] >= 517) & scores["scores"] < 584]),
+                  len(scores[(scores["scores"] >= 584) & scores["scores"] < 649]), 
+                  len(scores[scores["scores"] > 600])])
+
+    labels = ["<500 Pobre", "450-516 Regular", "518-583 Bueno", "584-649 Muy bueno", ">600 excelente"]
+    
+    plt.pie(y, labels = labels)
+    #plt.legend(title = "Significados")
+    plt.show()
 
 #matriz_calculo_scores = pd.read_pickle("DataFramesYutiles/X_test_woe_transformed.pkl")
 #print(scorecard["Feature name"].values)
@@ -73,6 +89,9 @@ def input_toCreditScore(grade, home_ownership, verification_status, purpose, ter
 
 data = calcular_percentil(551)
 print(data)
+create_score_pie_chart()
+
+
 
 
 
