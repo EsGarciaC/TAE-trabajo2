@@ -14,6 +14,8 @@ Cuando en Datacrédito o instituciones similares analizan su credit score, lo ha
 # Problema
 Para vivir sabroso en una sociedad contemporánea, se necesita capacidad de endeudamiento y obtención de préstamos. Inicialmente, las entidades bancarias podrían temer prestarle dinero a la mayoría de la población dada la posiblidad de que esta no pueda pagarle o no cumpla con los plazos establecidos entre sus obligaciones financieras. Tener una manera de predecir la probabilidad de que un individuo sea un buen prestador es indispensable, y abre los horizontes a poder ofrecerle a una mayor cantidad de personas el dinero que necesitan.
 ## Procedimiento
-dios mío santo
+Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza con el preprocesamiento:
+1. Retiramos todas las columnas cuyos valores sean todos nulos. Con esto, terminamos con 57 columnas. 
+2. 
 # Conclusiones
 no sé bro...
