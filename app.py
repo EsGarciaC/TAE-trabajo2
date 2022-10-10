@@ -1,8 +1,7 @@
 import streamlit as st
-import numpy as np
-import pandas as pd
 from preprocesamiento import input_toCreditScore
-import joblib
+from preprocesamiento import create_score_pie_chart
+from preprocesamiento import calcular_percentil
 
 st.set_page_config(page_title="miDataCreditoGratis.com", page_icon="./DataFramesYutiles/stockfish.png", layout="centered", initial_sidebar_state="auto")
 
@@ -209,24 +208,46 @@ score = input_toCreditScore(grade, home_ownership, verification_status, purpose,
                             total_rec_int, total_rev_hi_lim, mths_since_earliest_cr_line, mths_since_issue_d,
                             mths_since_last_credit_pull_d)
 
+
+st.subheader("Oráculo de puntaje crediticio")
+
 if score >= 600:
-    st.write(f"""¡Felicitaciones! Su puntaje es de {score}, que está muy por encima del puntaje 
+    st.markdown(f"""¡Felicitaciones! Su puntaje es de **{score}**, que está muy por encima del puntaje 
             promedio de los consumidores y demuestra claramente a los prestamistas que es un
-            prestatario excepcional.\nAdaptado de: experian.com""")
+            prestatario excepcional.""")
 elif score >= 585:
-    st.write(f"""¡Bien! Su puntaje es de {score}, que está por encima del puntaje 
+    st.markdown(f"""¡Bien! Su puntaje es de **{score}**, que está por encima del puntaje 
             promedio de los consumidores y demuestra a los prestamistas que es un
-            prestatario muy confiable.\nAdaptado de: experian.com""")
+            prestatario muy confiable.""")
 elif score >= 518:
-    st.write(f"""Su puntaje es de {score}, que está cerca o ligeramente por encima del puntaje 
+    st.markdown(f"""Su puntaje es de **{score}**, que está cerca o ligeramente por encima del puntaje 
             promedio de los consumidores y la mayoría de los prestamistas lo consideran como un 
-            buen puntaje.\nAdaptado de: experian.com""")
+            buen puntaje.""")
 elif score >= 450:
-    st.write(f"""Su puntaje es de {score}, que está por debajo del puntaje 
+    st.markdown(f"""Su puntaje es de **{score}**, que está por debajo del puntaje 
             promedio de los consumidores. Aún así, existen prestamistas que aprobarán
-            prestamos con este puntaje.\nAdaptado de: experian.com""")
+            prestamos con este puntaje.""")
 else:
-    st.write(f"""Su puntaje es de {score}, que está muy por debajo del puntaje 
+    st.markdown(f"""Su puntaje es de **{score}**, que está muy por debajo del puntaje 
             promedio de los consumidores y demuestra a los prestamistas que es un
-            prestatario riesgoso.\nAdaptado de: experian.com""")
+            prestatario riesgoso.""")
+
+percentil = calcular_percentil(score)
+
+st.markdown(f"""Su percentil es de **{percentil}**,  lo que significa que su score crediticio 
+            está por encima del de **{percentil}%** de las personas.""")
+if score >= 600:
+    st.pyplot(create_score_pie_chart(explode = (0,0,0,0,0.4)))  
+elif score >= 585:
+    st.pyplot(create_score_pie_chart(explode = (0,0,0,0.1,0)))   
+elif score >= 518:
+    st.pyplot(create_score_pie_chart(explode = (0,0,0.1,0,0))) 
+elif score >= 450:
+    st.pyplot(create_score_pie_chart(explode = (0,0.1,0,0,0)))   
+else:
+    st.pyplot(create_score_pie_chart(explode = (0.4,0,0,0,0)))
+
+st.markdown("Rangos adaptados de: *experian.com*")
+
+
         

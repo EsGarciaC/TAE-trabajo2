@@ -62,7 +62,7 @@ def input_toCreditScore(grade, home_ownership, verification_status, purpose, ter
 
     return round(credit_score[0][0])
 
-def create_score_pie_chart():
+def create_score_pie_chart(explode):
 
     scores = load_scores()
     scores.sort_index(inplace=True)
@@ -74,22 +74,13 @@ def create_score_pie_chart():
                   len(scores[scores["scores"] > 600])])
 
     labels = ["<500 Pobre", "450-516 Regular", "518-583 Bueno", "584-649 Muy bueno", ">600 excelente"]
-    
-    plt.pie(y, labels = labels)
-    #plt.legend(title = "Significados")
-    plt.show()
+    fig, ax = plt.subplots()
+    ax.pie(y, labels = labels, explode=explode, autopct='%1.1f%%', shadow=True)
 
-#matriz_calculo_scores = pd.read_pickle("DataFramesYutiles/X_test_woe_transformed.pkl")
-#print(scorecard["Feature name"].values)
-#print(scorecard_scores)
-# score = input_toCreditScore("B", "OWN", "Verified", "debt_consolidation", "36", "7.071-10.374", 
-#                            "37,440-61,137", "10.397-15.196", "0", "<0.1", "1,286-6,432", "<10,000", 
-#                            "1,089-2,541", "missing", "<125", "79-89", "61-75")
+    return fig
 
 
-data = calcular_percentil(551)
-print(data)
-create_score_pie_chart()
+
 
 
 
