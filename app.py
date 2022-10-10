@@ -4,28 +4,18 @@ import pandas as pd
 from preprocesamiento import input_toCreditScore
 import joblib
 
-st.set_page_config(page_title="miDataCreditoGratis.com", page_icon="./Graficas/stockfish.png", layout="centered", initial_sidebar_state="auto")
+st.set_page_config(page_title="miDataCreditoGratis.com", page_icon="./DataFramesYutiles/stockfish.png", layout="centered", initial_sidebar_state="auto")
 
 
 
-#def load_data():
-    
-    #data = joblib.load("DataPrincipal.pkl")
 
-    #return data
+st.title("miDataCreditoGratis.com")
 
-st.title("Universingreso")
+st.markdown("""¡Bienvenido! Esta aplicación le ayudará a averiguar su puntaje 
+            crediticio de manera totalmenta gratuita. Para comenzar, simplemente 
+            rellene el cuestionario de la izquierda con su información financiera básica. En la parte de abajo podrá visualizar su puntaje crediticio, lo que implica y 
+            cómo éste se compara con el de la persona promedio.""")
 
-st.markdown("""¡Bienvenido! Esta aplicación le ayudará a tomar una decisión 
-            en cuanto a su elección de universidad en Estados Unidos. Para comenzar, simplemente
-            utilice el formulario de la izquierda para especificar su dependencia/independencia, el ingreso de su familia y 
-            la déuda máxima que desea asumir al final de sus estudios. La página le arrojará un conjunto de universidades recomendado
-            que puede visualizar en el mapa. Si desea ver más o menos grupos de universidades, simplemente marque
-            o desmarque los botones seleccionables de la parte inferior izquierda.""")
-
-######## DATAFRAME PRINCIPAL #########
-#df_data = load_data()
-##################################
 
 ########### SIDEBAR ##########
 with st.sidebar:
@@ -76,6 +66,8 @@ with st.sidebar:
         purpose = "educ__ren_en__sm_b__mov"
     elif purpose == "Boda":
         purpose = "vacation__house__wedding__med__oth"
+    elif purpose == "Vacaciones":
+        purpose = "vacation__house__wedding__med__oth"
     elif purpose == "Mudanza":
         purpose = "vacation__house__wedding__med__oth"
     elif purpose == "Casa":
@@ -97,7 +89,7 @@ with st.sidebar:
         
     
     #int_rate
-    int_rate = st.number_input(label="Tasa de interés de su préstamo (%), si no sabe dejar vacío: ", value = -1)
+    int_rate = st.number_input(label="Tasa de interés de su préstamo (%), si no sabe dejar -1: ", value = -1)
     if int_rate == -1:
         int_rate = "13.676-15.74"
     elif int_rate < 7.071:
@@ -114,7 +106,7 @@ with st.sidebar:
         int_rate = ">20.281"
     
     #annual_inc
-    annual_inc = st.number_input(label="Ingreso anual en dólares, si no sabe dejar vacío: ", value = 0)
+    annual_inc = st.number_input(label="Ingreso anual en dólares, si no sabe dejar 0: ", value = 0)
     if annual_inc == 0:
         annual_inc = "missing"
     elif annual_inc <28555:
@@ -136,7 +128,7 @@ with st.sidebar:
 
     dti = "10.397-15.196"
 
-    inq_last_6mths = st.number_input(label="Número de consultas por parte de prestamistas a tu historial (lo puedes consultar en https://www.midatacredito.com o dejar el campo vacío si no es posible): ", value = -1)
+    inq_last_6mths = st.number_input(label="Número de consultas por parte de prestamistas a tu historial (lo puedes consultar en https://www.midatacredito.com o dejar el campo en -1 si no es posible): ", value = -1)
     if inq_last_6mths == -1:
         inq_last_6mths = "missing"
     elif inq_last_6mths == 0:
@@ -155,7 +147,7 @@ with st.sidebar:
     out_prncp = "1,286-6,432"
 
     #total_pymnt
-    total_pymnt = st.number_input(label="Total en dólares abonado a sus deudas activas, si no sabe dejar vacio: ", value = -1)
+    total_pymnt = st.number_input(label="Total en dólares abonado a sus deudas activas, si no sabe dejar -1: ", value = -1)
     if total_pymnt == -1:
         total_pymnt = "10,000-15,000"
     elif total_pymnt <10000:
@@ -176,7 +168,7 @@ with st.sidebar:
     total_rev_hi_lim = "25,525-35,097"
 
     #mths_since_earliest_cr_line
-    mths_since_earliest_cr_line = st.number_input(label="Meses desde que abrió su primera línea de crédito, si no sabe dejar vacio: ", value = -1)
+    mths_since_earliest_cr_line = st.number_input(label="Meses desde que abrió su primera línea de crédito, si no sabe dejar -1: ", value = -1)
     if mths_since_earliest_cr_line == -1:
         mths_since_earliest_cr_line = "missing"
     elif mths_since_earliest_cr_line <125:
@@ -193,7 +185,7 @@ with st.sidebar:
         mths_since_earliest_cr_line = ">434"
 
     #mths_since_issue_d
-    mths_since_issue_d = st.number_input(label="Meses desde que abrió su préstamo actual, si no sabe dejar vacio: ", value = -1)
+    mths_since_issue_d = st.number_input(label="Meses desde que abrió su préstamo actual, si no sabe dejar -1: ", value = -1)
     if mths_since_issue_d == -1:
         mths_since_issue_d = "89-100"
     elif mths_since_issue_d <79:

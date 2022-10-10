@@ -2,12 +2,24 @@ import pandas as pd
 import numpy as np
 
 def load_scores():
-    scores_test = pd.read_pickle("DataFramesYutiles/punjatesTest.pkl")
-    score_train = pd.read_pickle("DataFramesYutiles/punjatesTrain.pkl")
+    scores_test = pd.read_pickle("DataFramesYutiles/puntajesTest.pkl")
+    score_train = pd.read_pickle("DataFramesYutiles/puntajesTrain.pkl")
 
     puntajes = score_train.append(scores_test)
 
     return puntajes
+
+def calcular_percentil(puntaje):
+
+    scores = load_scores()
+
+    scores.columns = ["puntajes"]
+
+    cantidad_puntajes_debajo = len(scores[scores["puntajes"] <= puntaje])
+
+    percentil = cantidad_puntajes_debajo/len(scores["puntajes"]) * 100
+
+    return int(percentil)
 
 def load_scorecard():
     scorecard = pd.read_pickle("DataFramesYutiles/scorecard.pkl")
@@ -54,12 +66,13 @@ def input_toCreditScore(grade, home_ownership, verification_status, purpose, ter
 #matriz_calculo_scores = pd.read_pickle("DataFramesYutiles/X_test_woe_transformed.pkl")
 #print(scorecard["Feature name"].values)
 #print(scorecard_scores)
-score = input_toCreditScore("B", "OWN", "Verified", "debt_consolidation", "36", "7.071-10.374", 
-                           "37,440-61,137", "10.397-15.196", "0", "<0.1", "1,286-6,432", "<10,000", 
-                           "1,089-2,541", "missing", "<125", "79-89", "61-75")
+# score = input_toCreditScore("B", "OWN", "Verified", "debt_consolidation", "36", "7.071-10.374", 
+#                            "37,440-61,137", "10.397-15.196", "0", "<0.1", "1,286-6,432", "<10,000", 
+#                            "1,089-2,541", "missing", "<125", "79-89", "61-75")
 
 
-print(load_scores().shape)
+data = calcular_percentil(551)
+print(data)
 
 
 
