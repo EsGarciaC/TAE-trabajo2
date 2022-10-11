@@ -41,13 +41,26 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
   | 2 | 0    |   1  | 0  |
   | 3 | 0   |   0  | 1  |
 
-  - WoE (Weight of Evidence): El _peso de la evidencia_ es una medida de qué tanto la evidencia apoya (o no) una hipótesis. Con este, se mide el riesgo relativo de un atributo de nivel de _binning_.
+  - WoE (Weight of Evidence): El _peso de la evidencia_ es una medida de qué tanto apoya la evidencia (o no) una hipótesis. Con este, se mide el riesgo relativo de un atributo de nivel de _binning_.
+  $WoE = ln$((\%of good customers)/(\%of bad customers))
+
+
   - Binning: Es una técnica de preprocesamiento de data que se usa para reducir los efectos menores de observación. El binning estadístico (Statistical data binning) es una manera de agrupar números continuos o semi-continuos en pequeños números que consideraremos _bins_. Podríamos tomar una variable que vaya desde 1 a 100 y dividirla en grupos de 20, entonces la primera variable tendría valores de 1-20, la segunda de 21-40 y así.
    - IV (Information Value): Es un método que ayuda a clasificar variables por su orden de importancia en un modelo predictivo. Se calcula con la siguiente fórmula:
-  $IV = ∑ (\% of non-events - \% of events) * WOE$
+  $IV = ∑ $(\% of non-events - \% of events)$ * WOE$
 
-8. One-hot encoding
+8. One-hot encoding: Se crean las variables dummy para las 4 variables categóricas ('grade', 'home_ownership', 'verification_status', 'purpose'). Se utiliza la siguiente convención de nombres 'variable':'valor'. Por ejemplo, un posible dummy de 'grade' es 'grade:A'. 
 
+9. Nos aseguramos de que nuestro dataset de prueba tenga todas las columnas que el principal. Por lo tanto, agregamos estas nuevas variables dummy.
+
+10. se hace el WoE y se organiza tal que los datos puedan ser categóricos. Esto se hace delimitando los valores continuos usando binning. Esto, si bien afecta la precisión del modelo, vuelve el resultado más fácilmente interpretable.
+11. se hace binning a manito con la ayuda de dios.
+12. Se entrena el modelo. Se calculan los puntajes AUROC y Gini
+13. ?????????
+14. Se obtienen las probabilidades en un nuevo dataframe. 
+15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación 
+###### ROC CURVE
+16. Se hace una scoreboard que ayude a medir qué tanto vale el hecho de quedar en cualquiera de las variables bins, para, con esto, poder calcular los scores de cada individuo. Se desarrolla de tal manera que el mínimo y máximo para cada persona en su score sea 300 y 850, respectivamente. 
 # Conclusiones
 no sé bro...
 
