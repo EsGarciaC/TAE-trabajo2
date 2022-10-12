@@ -62,7 +62,15 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 ###### ROC CURVE
 16. Se hace una scoreboard que ayude a medir qué tanto vale el hecho de quedar en cualquiera de las variables bins, para, con esto, poder calcular los scores de cada individuo. Se desarrolla de tal manera que el mínimo y máximo para cada persona en su score sea 300 y 850, respectivamente. 
 # Conclusiones
-no sé bro...
+* A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación:
+<img src="/DataFramesYutiles/Figure_1.png" alt="revolving utilization rate" title="Tasa de utilización">
+
+**Imagen:** *Tasa de utilización de crédito vs score*
+
+* La variable con mayor peso a la hora de evaluar el puntaje crediticio es el de 'total_pymnt', es decir, el del pago que se ha efectuado hasta el momento de acuerdo a un préstamo ya en efecto. Posr lo tanto, se recomienda poner mucho cuidado al hacer un préstamo, especialmente si es uno grande, dado que, este bloqueará estos medios de obtención de capital hasta que no se haya pagado toda o gran parte de la deuda inicial. 
+* En el scoreboard, hay algunos bins cuyos coeficientes y scores se encuentran en 0. Esto se debe a que es posible que no hubo ningún dato de este tipo a la hora de entrenar el modelo. Puede ser que sea muy raro el caso, por ejemplo, que alguien tenga una calificación o 'grade' tipo G, o que, a la hora de hacer la división de los datos para crear el set de test haya ocurrido que alguno de los datos terminara exclusivamente en este set. 
+
+
 
 
 https://www.geeksforgeeks.org/convert-a-categorical-variable-into-dummy-variables/
@@ -71,3 +79,5 @@ https://www.investopedia.com/terms/f/forward-looking.asp
 https://www.listendata.com/2019/08/credit-risk-modelling.html
 https://documentation.sas.com/doc/en/vdmmlcdc/8.1/casstat/viyastat_binning_details02.htm
 https://www.microscopyu.com/tutorials/ccd-signal-to-noise-ratio
+
+https://www.nationalfunding.com/blog/what-is-revolving-utilization-how-to-improve-it/ rev baja[]
