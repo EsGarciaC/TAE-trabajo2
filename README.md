@@ -33,7 +33,8 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
   |1| alta |
   |2| media |
   |3| baja |
-  se reemplaza por otra, tal que:
+
+  se reemplaza por otra, tal que, cada posible valor para la variable en cuestión se convierta en una nueva columna binaria:
 
   |Índice| alta | media | baja| 
   | ---- | ---- | ---- | ---- |
