@@ -17,16 +17,24 @@ Para vivir sabroso en una sociedad contemporánea, se necesita capacidad de ende
 Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza con el preprocesamiento:
 1. Retiramos todas las columnas cuyos valores sean todos nulos. Con esto, terminamos con 57 columnas. 
 2. Se eliminaron las columnas que no brindan información cuantitativa o analizable de cómo formular el scorecard. Así, se eliminaron variables de identificación al igual que las que representan fechas o cobros a futuro. Por ejempló, se elimino el zip code y la fecha del próximo pago del deudor.
-3. Se utiliza la matriz de correlación para visualizar qué variables son similares entre ellas y eliminar las redundantes. El número de columnas resultante fue 36. La matriz se puede observar en la figura 1. 
+3. Se utiliza la matriz de correlación para visualizar qué variables son similares entre ellas y eliminar las redundantes. El número de columnas resultante fue 36. La matriz se puede observar en la figura 1. Al eliminar las correspondientes columnas, se obtiene la figura 2 que representa la matriz de correlación depurada. 
 #### FIGURA 1
+
+<img src="/DataFramesYutiles/matriz_corr_tot_variables.png" alt="matriz_corr_tot_variables" title="matriz_corr_tot_variables">
+
+**Figura 1**: *Matriz de correlación*
+
+<img src="/DataFramesYutiles/matriz_corr_depurada.png" alt="matriz_corr_depurada" title="matriz_corr_depurada">
+
+**Figura 2**: *Matriz de correlación depurada*
+
+
 4. A continuación se crea una nueva columna 'good_bad' que mantiene los datos "negativos", es decir, los que representan que se ha incumplido con las obligaciones financieras (moroso, cancelación, 'default', o no cumple las políticas de crédito). Se divide esta información que resta en dos: 80% para entrenamiento del modelo y 20% para su validación
 5. Después, se empezó con la conversión de variables. Para las fechas, se utilizó métodos de expresiones regulares para cambiar formatos tales como '< 1 year' y convertirlo a valores que el módulo datetime de python pueda comprender. Se debe tener en cuenta que la "fecha de hoy" para el trabajo en cuestión. Es decir, se utiliza la fecha de '2020-08-01'.
 6. Extraemos información importante para más adelante, la media de las variables "mths_since_issue_d", "mths_since_last_credit_pull_d".
 7. Continuamos con el preprocesamiento, ahora eliminando valores utilizando el estadístico de chi cuadrado. Se calculó sobre cada columna el estadístico. Se calculó el estadístico F para hallar los p values correspondientes. Para evitar los problemas con los valores nulos, se reemplazaron temporalmente por la media de la columna. Al final, con la tabla obtenida, se eliminaron las variables recomendadas por el estadístico de F (es decir, con los menores puntajes) de nuestros datos de entrenamiento. Terminamos con 24 variables (columnas).
 - En este punto, para poder desarrollar nuestro WoE (Weight of Evidence) y IV(Information Value) debemos crear variables "dummy" (variable imitación o maniquí) para cada una de las variables categóricas. Antes de continuar, veamos qué es cada una de estas.
-  - Dummy: es una variable que se agrega para trabajar con variables categóricas. Lo que se hace, es que para cada posible "valor" que tenga la variable, creamos una nueva variable binaria. Por dar un ejemplo, si tenemos una columna de la forma
-
-
+  - Dummy: es una variable que se agrega para trabajar con variables categóricas. Lo que se hace, es que para cada posible "valor" que tenga la variable, creamos una nueva variable binaria. Por dar un ejemplo, si tenemos una columna de la forma de la tabla 1, que se puede ver a continuación:
 
   |Índice| Humedad |
   | --- | --- |
@@ -34,7 +42,9 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
   |2| media |
   |3| baja |
 
-  se reemplaza por otra, tal que, cada posible valor para la variable en cuestión se convierta en una nueva columna binaria:
+  **Tabla 1**: *Tabla inicial*
+
+  Se reemplaza por otra, tal que, cada posible valor para la variable en cuestión se convierta en una nueva columna binaria, como se observa en la tabla 2:
 
   |Índice| alta | media | baja| 
   | ---- | ---- | ---- | ---- |
@@ -42,12 +52,15 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
   | 2 | 0    |   1  | 0  |
   | 3 | 0   |   0  | 1  |
 
+**Tabla 2**: *Tabla con dummies*
+
   - WoE (Weight of Evidence): El _peso de la evidencia_ es una medida de qué tanto apoya la evidencia (o no) una hipótesis. Con este, se mide el riesgo relativo de un atributo de nivel de _binning_.
   $WoE = ln$((\%of good customers)/(\%of bad customers))
 
 
-  - Binning: Es una técnica de preprocesamiento de data que se usa para reducir los efectos menores de observación. El binning estadístico (Statistical data binning) es una manera de agrupar números continuos o semi-continuos en pequeños números que consideraremos _bins_. Podríamos tomar una variable que vaya desde 1 a 100 y dividirla en grupos de 20, entonces la primera variable tendría valores de 1-20, la segunda de 21-40 y así.
-   - IV (Information Value): Es un método que ayuda a clasificar variables por su orden de importancia en un modelo predictivo. Se calcula con la siguiente fórmula:
+  - Binning: Es una técnica de preprocesamiento de data que se usa para reducir los efectos menores de observación. El binning estadístico (Statistical data binning) es una manera de agrupar números continuos o semi-continuos en pequeños números que consideraremos _bins_[2]. Podríamos tomar una variable que vaya desde 1 a 100 y dividirla en grupos de 20, entonces la primera variable tendría valores de 1-20, la segunda de 21-40 y así.
+
+   - IV (Information Value)[3]: Es un método que ayuda a clasificar variables por su orden de importancia en un modelo predictivo. Se calcula con la siguiente fórmula:
   $IV = ∑ $(\% of non-events - \% of events)$ * WOE$
 
 8. One-hot encoding: Se crean las variables dummy para las 4 variables categóricas ('grade', 'home_ownership', 'verification_status', 'purpose'). Se utiliza la siguiente convención de nombres 'variable':'valor'. Por ejemplo, un posible dummy de 'grade' es 'grade:A'. 
@@ -59,26 +72,42 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 12. Se entrena el modelo. Se calculan los puntajes AUROC y Gini
 13. ?????????
 14. Se obtienen las probabilidades en un nuevo dataframe. 
-15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación 
+15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación en la figura 3 y la figura 4, que se da una mayor insidencia de falsos positivos que de falsos negativos. 
 ###### ROC CURVE
+
+<img src="/DataFramesYutiles/ROC curve.png" alt="ROC" title="ROC Curve">
+
+**Figura 3:** *Curva ROC* 
+
+<img src="/DataFramesYutiles/PR curve.png" alt="PR" title="PR Curve">
+
+**Figura 4:** *Curva PR* 
+
 16. Se hace una scoreboard que ayude a medir qué tanto vale el hecho de quedar en cualquiera de las variables bins, para, con esto, poder calcular los scores de cada individuo. Se desarrolla de tal manera que el mínimo y máximo para cada persona en su score sea 300 y 850, respectivamente. 
 # Conclusiones
-* A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación:
+* A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [4], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación en la figura 5:
 <img src="/DataFramesYutiles/Figure_1.png" alt="revolving utilization rate" title="Tasa de utilización">
 
-**Imagen:** *Tasa de utilización de crédito vs score*
+**Figura 5:** *Tasa de utilización de crédito vs score*
 
 * La variable con mayor peso a la hora de evaluar el puntaje crediticio es el de 'total_pymnt', es decir, el del pago que se ha efectuado hasta el momento de acuerdo a un préstamo ya en efecto. Posr lo tanto, se recomienda poner mucho cuidado al hacer un préstamo, especialmente si es uno grande, dado que, este bloqueará estos medios de obtención de capital hasta que no se haya pagado toda o gran parte de la deuda inicial. 
 * En el scoreboard, hay algunos bins cuyos coeficientes y scores se encuentran en 0. Esto se debe a que es posible que no hubo ningún dato de este tipo a la hora de entrenar el modelo. Puede ser que sea muy raro el caso, por ejemplo, que alguien tenga una calificación o 'grade' tipo G, o que, a la hora de hacer la división de los datos para crear el set de test haya ocurrido que alguno de los datos terminara exclusivamente en este set. 
 
 
+# Bibliografía
+Código basado en [1]
 
+[1] A. Mumtaz (2020, Agosto 13). How to Develop a Credit Risk Model and Scorecard [Online]. Available: https://towardsdatascience.com/how-to-develop-a-credit-risk-model-and-scorecard-91335fc01f03
 
-https://www.geeksforgeeks.org/convert-a-categorical-variable-into-dummy-variables/
-https://towardsdatascience.com/how-to-develop-a-credit-risk-model-and-scorecard-91335fc01f03
-https://www.investopedia.com/terms/f/forward-looking.asp
-https://www.listendata.com/2019/08/credit-risk-modelling.html
-https://documentation.sas.com/doc/en/vdmmlcdc/8.1/casstat/viyastat_binning_details02.htm
-https://www.microscopyu.com/tutorials/ccd-signal-to-noise-ratio
+[2] SAS® Help Center (2020, Agosto 13). The BINNING Procedure[Online]. Available: https://documentation.sas.com/doc/en/vdmmlcdc/8.1/casstat/viyastat_binning_details02.htm
 
-https://www.nationalfunding.com/blog/what-is-revolving-utilization-how-to-improve-it/ rev baja[]
+[3] T. J. Fellers, K. M. Vogt, and M. W. Davidson (2020).  CCD Signal-To-Noise Ratio [Online]. Available: https://www.microscopyu.com/tutorials/ccd-signal-to-noise-ratio
+
+[4] D. Rodeck (2021, Junio 15). What Is Revolving Utilization? [Online]. Available: https://www.nationalfunding.com/blog/what-is-revolving-utilization-how-to-improve-it/ 
+
+## Lecturas recomendadas
+
+J. Chen (2019, Agosto 19). Forward Looking [Online]. Available: https://www.investopedia.com/terms/f/forward-looking.asp
+D. Bhalla (2019, Septiembre 5). A Complete Guide to Credit Risk Modelling [Online]. Available: https://www.listendata.com/2019/08/credit-risk-modelling.html
+https://media.geeksforgeeks.org/auth/avatar.png
+ag01harshit (2020, Diciembre 11). Convert a categorical variable into dummy variables [Online]. Available: https://www.geeksforgeeks.org/convert-a-categorical-variable-into-dummy-variables/
