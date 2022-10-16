@@ -10,14 +10,13 @@ def load_scores():
     scores.columns = ["scores"]
 
     return scores
+scores = load_scores()
 
 def calcular_percentil(puntaje):
 
-    scores = load_scores()
+    cantidad_puntajes_debajo = len(scores[(scores["scores"] <= puntaje)])
 
-    cantidad_puntajes_debajo = len(scores[scores["scores"] <= puntaje])
-
-    percentil = cantidad_puntajes_debajo/len(scores["scores"]) * 100
+    percentil = (cantidad_puntajes_debajo/len(scores["scores"])) * 100
 
     return int(percentil)
 
@@ -64,16 +63,15 @@ def input_toCreditScore(grade, home_ownership, verification_status, purpose, ter
 
 def create_score_pie_chart(explode):
 
-    scores = load_scores()
-    scores.sort_index(inplace=True)
+    y = np.array([len(scores[scores['scores'] < 460]), 
+                  len(scores[(scores["scores"] >= 460) & (scores["scores"] < 517)]), 
+                  len(scores[(scores["scores"] >= 517) & (scores["scores"] < 584)]),
+                  len(scores[(scores["scores"] >= 584) & (scores["scores"] < 630)]), 
+                  len(scores[scores["scores"] >= 630])])
+    
+   
 
-    y = np.array([len(scores[scores['scores'] < 500]), 
-                  len(scores[(scores["scores"] >= 450) & scores["scores"] < 517]), 
-                  len(scores[(scores["scores"] >= 517) & scores["scores"] < 584]),
-                  len(scores[(scores["scores"] >= 584) & scores["scores"] < 649]), 
-                  len(scores[scores["scores"] > 600])])
-
-    labels = ["<500 Pobre", "450-516 Regular", "518-583 Bueno", "584-649 Muy bueno", ">600 excelente"]
+    labels = ["<460 Pobre", "460-516 Regular", "517-583 Bueno", "584-629 Muy bueno", ">=630 excelente"]
     fig, ax = plt.subplots()
     ax.pie(y, labels = labels, explode=explode, autopct='%1.1f%%', shadow=True)
 

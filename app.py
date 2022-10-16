@@ -211,19 +211,19 @@ score = input_toCreditScore(grade, home_ownership, verification_status, purpose,
 
 st.subheader("Oráculo de puntaje crediticio")
 
-if score >= 600:
+if score >= 630:
     st.markdown(f"""¡Felicitaciones! Su puntaje es de **{score}**, que está muy por encima del puntaje 
             promedio de los consumidores y demuestra claramente a los prestamistas que es un
             prestatario excepcional.""")
-elif score >= 585:
+elif score >= 584:
     st.markdown(f"""¡Bien! Su puntaje es de **{score}**, que está por encima del puntaje 
             promedio de los consumidores y demuestra a los prestamistas que es un
             prestatario muy confiable.""")
-elif score >= 518:
+elif score >= 517:
     st.markdown(f"""Su puntaje es de **{score}**, que está cerca o ligeramente por encima del puntaje 
             promedio de los consumidores y la mayoría de los prestamistas lo consideran como un 
             buen puntaje.""")
-elif score >= 450:
+elif score >= 460:
     st.markdown(f"""Su puntaje es de **{score}**, que está por debajo del puntaje 
             promedio de los consumidores. Aún así, existen prestamistas que aprobarán
             prestamos con este puntaje.""")
@@ -236,13 +236,13 @@ percentil = calcular_percentil(score)
 
 st.markdown(f"""Su percentil es de **{percentil}**,  lo que significa que su score crediticio 
             está por encima del de **{percentil}%** de las personas.""")
-if score >= 600:
+if score >= 630:
     st.pyplot(create_score_pie_chart(explode = (0,0,0,0,0.4)))  
-elif score >= 585:
+elif score >= 584:
     st.pyplot(create_score_pie_chart(explode = (0,0,0,0.1,0)))   
-elif score >= 518:
+elif score >= 517:
     st.pyplot(create_score_pie_chart(explode = (0,0,0.1,0,0))) 
-elif score >= 450:
+elif score >= 460:
     st.pyplot(create_score_pie_chart(explode = (0,0.1,0,0,0)))   
 else:
     st.pyplot(create_score_pie_chart(explode = (0.4,0,0,0,0)))
