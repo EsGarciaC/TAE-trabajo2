@@ -21,11 +21,11 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 
 <img src="/DataFramesYutiles/matriz_corr_tot_variables.png" alt="matriz_corr_tot_variables" title="matriz_corr_tot_variables">
 
-**Figura 1:**: *Matriz de correlación sin depurar*
+**Figura 1:** *Matriz de correlación sin depurar*
 
 <img src="/DataFramesYutiles/matriz_corr_depurada.png" alt="matriz_corr_depurada" title="matriz_corr_depurada">
 
-**Figura 2:**: *Matriz de correlación depurada*
+**Figura 2:** *Matriz de correlación depurada*
 
 
 4. A continuación se crea una nueva columna 'good_bad' que mantiene los datos "negativos", es decir, los que representan que se ha incumplido con las obligaciones financieras (moroso, cancelación, 'default', o no cumple las políticas de crédito). Se divide esta información que resta en dos: 80% para entrenamiento del modelo y 20% para su validación
