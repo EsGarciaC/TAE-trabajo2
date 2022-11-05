@@ -17,16 +17,16 @@ Para vivir sabroso en una sociedad contemporánea, se necesita capacidad de ende
 Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza con el preprocesamiento:
 1. Retiramos todas las columnas cuyos valores sean todos nulos. Con esto, terminamos con 57 columnas. 
 2. Se eliminaron las columnas que no brindan información cuantitativa o analizable de cómo formular el scorecard. Así, se eliminaron variables de identificación al igual que las que representan fechas o cobros a futuro. Por ejempló, se elimino el zip code y la fecha del próximo pago del deudor.
-3. Se utiliza la matriz de correlación para visualizar qué variables son similares entre ellas y eliminar las redundantes. El número de columnas resultante fue 36. La matriz se puede observar en la figura 1. Al eliminar las correspondientes columnas, se obtiene la figura 2 que representa la matriz de correlación depurada. 
-#### FIGURA 1
+3. Se utiliza la matriz de correlación para visualizar qué variables son similares entre ellas y eliminar las redundantes. El número de columnas resultante fue 36. La matriz se puede observar en la Figura 2. Al eliminar las correspondientes columnas, se obtiene la Figura 3 que representa la matriz de correlación depurada. 
+**Figura 1**: *Matriz de correlación sin depurar*
 
 <img src="/DataFramesYutiles/matriz_corr_tot_variables.png" alt="matriz_corr_tot_variables" title="matriz_corr_tot_variables">
 
-**Figura 1**: *Matriz de correlación*
+**Figura 2**: *Matriz de correlación*
 
 <img src="/DataFramesYutiles/matriz_corr_depurada.png" alt="matriz_corr_depurada" title="matriz_corr_depurada">
 
-**Figura 2**: *Matriz de correlación depurada*
+**Figura 3**: *Matriz de correlación depurada*
 
 
 4. A continuación se crea una nueva columna 'good_bad' que mantiene los datos "negativos", es decir, los que representan que se ha incumplido con las obligaciones financieras (moroso, cancelación, 'default', o no cumple las políticas de crédito). Se divide esta información que resta en dos: 80% para entrenamiento del modelo y 20% para su validación
@@ -72,23 +72,23 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 12. Se entrena el modelo. Se calculan los puntajes AUROC y Gini
 13. ?????????
 14. Se obtienen las probabilidades en un nuevo dataframe. 
-15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación en la figura 3 y la figura 4, que se da una mayor insidencia de falsos positivos que de falsos negativos. 
+15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación en la Figura 4 y la Figura 5, que se da una mayor insidencia de falsos positivos que de falsos negativos. 
 ###### ROC CURVE
 
 <img src="/DataFramesYutiles/ROC curve.png" alt="ROC" title="ROC Curve">
 
-**Figura 3:** *Curva ROC* 
+**Figura 4:** *Curva ROC* 
 
 <img src="/DataFramesYutiles/PR curve.png" alt="PR" title="PR Curve">
 
-**Figura 4:** *Curva PR* 
+**Figura 5:** *Curva PR* 
 
 16. Se hace una scoreboard que ayude a medir qué tanto vale el hecho de quedar en cualquiera de las variables bins, para, con esto, poder calcular los scores de cada individuo. Se desarrolla de tal manera que el mínimo y máximo para cada persona en su score sea 300 y 850, respectivamente. 
 # Conclusiones
-* A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [4], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación en la figura 5:
+* A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [4], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación en la Figura 6:
 <img src="/DataFramesYutiles/Figure_1.png" alt="revolving utilization rate" title="Tasa de utilización">
 
-**Figura 5:** *Tasa de utilización de crédito vs score*
+**Figura 6:** *Tasa de utilización de crédito vs score*
 
 * La variable con mayor peso a la hora de evaluar el puntaje crediticio es el de 'total_pymnt', es decir, el del pago que se ha efectuado hasta el momento de acuerdo a un préstamo ya en efecto. Posr lo tanto, se recomienda poner mucho cuidado al hacer un préstamo, especialmente si es uno grande, dado que, este bloqueará estos medios de obtención de capital hasta que no se haya pagado toda o gran parte de la deuda inicial. 
 * En el scoreboard, hay algunos bins cuyos coeficientes y scores se encuentran en 0. Esto se debe a que es posible que no hubo ningún dato de este tipo a la hora de entrenar el modelo. Puede ser que sea muy raro el caso, por ejemplo, que alguien tenga una calificación o 'grade' tipo G, o que, a la hora de hacer la división de los datos para crear el set de test haya ocurrido que alguno de los datos terminara exclusivamente en este set. 
