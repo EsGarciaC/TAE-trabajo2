@@ -108,7 +108,7 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 
 
 # Análisis de las variables seleccionadas
-* Algunas de los puntajes obtenidos para los bins de las variables resultaron ser un poco diferentes a lo esperado. Un ejemplo podría ser la variable "verification status". En esta, los bins tienen puntajes negativos. O sea, se podría tomar como que estar verificado de alguna de las formas posibles en los datos es algo negativo, lo cuál es contradictorio a lo que uno pueda esperar al estar verificado.
+Algunas de los puntajes obtenidos para los bins de las variables resultaron ser un poco diferentes a lo esperado. Un ejemplo podría ser la variable "verification status". En esta, los bins tienen puntajes negativos. O sea, se podría tomar como que estar verificado de alguna de las formas posibles en los datos es algo negativo, lo cuál es contradictorio a lo que uno pueda esperar al estar verificado.
 
 Adicionalmente, el bin "Verified", tiene un mejor puntaje (mayor) a "Source Verified". La diferencia entre las dos es que Verified es estar verificado, pero no se sabe por cuál entidad, mientras que en "Source Verified" se sabe la entidad que verifica el estado de crediticio de la persona, haciendolo una certificación más "confiable".
 
