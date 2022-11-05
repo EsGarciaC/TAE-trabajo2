@@ -86,13 +86,42 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 16. Se hace una scoreboard que ayude a medir qué tanto vale el hecho de quedar en cualquiera de las variables bins, para, con esto, poder calcular los scores de cada individuo. Se desarrolla de tal manera que el mínimo y máximo para cada persona en su score sea 300 y 850, respectivamente. 
 # Variables
 
+  | Variable | Significado | 
+  | ---- | ---- | 
+  | grade |Nota asignada por el Letter of Credit (LC) |  
+  | home_ownership | Sobre su vivienda, si tiene casa propia, hipoteca u otro|
+  | verification_status | Estado de verificación   |
+  | purpose | Razón para hacer el préstamo |
+  | term | 36 o 60 cuotas mesuales|
+  | int_rate | Tasa de interés de su préstamo (%) |
+  | annual_inc |Ingreso anual en dólares |
+  | dti | Número de consultas por parte de prestamistas a tu historial |
+  | inq_last_6mths |Total en dólares abonado a sus deudas activas |
+  | revol_util | Revolving utilization rate ó porcentaje de uso de cupo |
+  | out_prncp | Capital pendiente de pago |
+  | total_pymnt | Pago total hasta el momento |
+  | total_rec_int | Intereses pagados hasta el momento |
+  | total_rev_hi_lim | Límite de crédito |
+  | mths_since_earliest_cr_line | Primera fecha reportada en la línea de crédito |
+  | mths_since_issue_d| Meses desde que se financió el préstamo |
+  | mths_since_last_credit_pull_d | Months since LC pulled credit for this loan |
+
+
+# Análisis de las variables seleccionadas
+* Algunas de los puntajes obtenidos para los bins de las variables resultaron ser un poco diferentes a lo esperado. Un ejemplo podría ser la variable "verification status". En esta, los bins tienen puntajes negativos. O sea, se podría tomar como que estar verificado de alguna de las formas posibles en los datos es algo negativo, lo cuál es contradictorio a lo que uno pueda esperar al estar verificado.
+
+Adicionalmente, el bin "Verified", tiene un mejor puntaje (mayor) a "Source Verified". La diferencia entre las dos es que Verified es estar verificado, pero no se sabe por cuál entidad, mientras que en "Source Verified" se sabe la entidad que verifica el estado de crediticio de la persona, haciendolo una certificación más "confiable".
+
+Otro ejemplo se puede encontrar en la primera de las conclusiones del blog, donde se habla de un poco de una variable en las que los puntajes de los bins estuvieron dispersas.
+
+
 # Conclusiones
 * A pesar de que expertos recomiendan mantener una tasa de utilización de crédito (revolving utilization rate) baja, cercana a un 30% [4], podemos observar según la scorecard que el score esperado varía impredeciblemente entre los diferentes bins de la variable revol_util. Se puede ver a continuación en la Figura 5:
 <img src="/DataFramesYutiles/Figure_1.png" alt="revolving utilization rate" title="Tasa de utilización">
 
 **Figura 5:** *Tasa de utilización de crédito vs score*
 
-* La variable con mayor peso a la hora de evaluar el puntaje crediticio es el de 'total_pymnt', es decir, el del pago que se ha efectuado hasta el momento de acuerdo a un préstamo ya en efecto. Posr lo tanto, se recomienda poner mucho cuidado al hacer un préstamo, especialmente si es uno grande, dado que, este bloqueará estos medios de obtención de capital hasta que no se haya pagado toda o gran parte de la deuda inicial. 
+* La variable con mayor peso a la hora de evaluar el puntaje crediticio es el de 'total_pymnt', es decir, el del pago que se ha efectuado hasta el momento de acuerdo a un préstamo ya en efecto. Por lo tanto, se recomienda poner mucho cuidado al hacer un préstamo, especialmente si es uno grande, dado que, este bloqueará estos medios de obtención de capital hasta que no se haya pagado toda o gran parte de la deuda inicial. 
 * En el scoreboard, hay algunos bins cuyos coeficientes y scores se encuentran en 0. Esto se debe a que es posible que no hubo ningún dato de este tipo a la hora de entrenar el modelo. Puede ser que sea muy raro el caso, por ejemplo, que alguien tenga una calificación o 'grade' tipo G, o que, a la hora de hacer la división de los datos para crear el set de test haya ocurrido que alguno de los datos terminara exclusivamente en este set. 
 
 
