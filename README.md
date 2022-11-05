@@ -68,11 +68,12 @@ Inicialmente, el dataset de datos tiene 466283 filas y 74 columnas. Se empieza c
 9. Nos aseguramos de que nuestro dataset de prueba tenga todas las columnas que el principal. Por lo tanto, agregamos estas nuevas variables dummy.
 
 10. se hace el WoE y se organiza tal que los datos puedan ser categóricos. Esto se hace delimitando los valores continuos usando binning. Esto, si bien afecta la precisión del modelo, vuelve el resultado más fácilmente interpretable.
-11. se hace binning a manito con la ayuda de dios.
-12. Se entrena el modelo. Se calculan los puntajes AUROC y Gini
-13. ?????????
-14. Se obtienen las probabilidades en un nuevo dataframe. 
-15. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación en la Figura 4 y la Figura 5, que se da una mayor insidencia de falsos positivos que de falsos negativos. 
+11. Luego de analizar los puntajes IV de los datos, se observa que algunos tienen, según la interpretación del IV score, fuerte poder de predicción, bajo, sospechoso, o medio. A algunas de las categorías de las variables que tengan muy bajo poder predictivo, y sean parecidas, se juntan con otras a la hora de hacer el binning. El binning en este caso se hace a mano para garantizar un mayor control sobre cómo se crean los grupos de binning y juntar las características deseadas en una sola. Esto también se hace dentro de una clase que permite utilizar el método fit_transform de otros módulos y sea más sencillo de hacer.
+12. Se entrena el modelo. Se calculan los puntajes AUC de la RO_Curve y Gini. El puntaje AUC es el área bajo la curva de la curva calculada de sensibilidad contra la especificidad, siendo respectivamente la tasa de verdaderos positivos y la tasa de falsos positivos. Un puntaje de 0.5 es el peor de los casos, indicando que el modelo no puede diferenciar entre los casos verdaderos positivos y los falsos positivos. En este caso, nuestro puntaje es de 0.8658, haciendolo un muy buen puntaje, teniendo en cuenta que el mejor es 1.0.
+13. Con el modelo se obtienen los coeficientes de peso analizados por el modelo para poder crear el valor que añadirán o restarán las respectivas categorías de las características elegidas. utilizando fórmulas algebráicas para traer estos coeficientes al rango de valores necesarios, podemos obtener los valores necesarios para poder calcular más adelante el score crediticio de una persona por medio de una multiplicación matricial, gracias a la conversión del dataframe con valores dummies.
+14. Los valores calculados con los coeficientes de peso son transformados de manera que al sumarlos, sus resultados sigan el rango de valores del score crediticio de  FICO, esto es, de 300 puntos a 850 puntos.
+15. Se obtienen las probabilidades en un nuevo dataframe. 
+16. Se hace una curva ROC, para representar gráficamente un análisis de sensibilidad del modelo. Se puede ver a continuación en la figura 3 y la figura 4, que se da una mayor insidencia de falsos positivos que de falsos negativos. 
 ###### ROC CURVE
 
 <img src="/DataFramesYutiles/ROC curve.png" alt="ROC" title="ROC Curve">
